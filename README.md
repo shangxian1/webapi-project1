@@ -36,7 +36,7 @@ Users can search for tracks, browse artists and albums, manage playlists, and di
 8. Search playlists by name  
 
 ### Additional Features
-9. Like / Save songs  
+9. Like songs  
 10. Collaborative playlists  
 
 ---
