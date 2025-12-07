@@ -1,41 +1,85 @@
-# WAD Project
-Name:  Shang Xian <br>
-Module Group: L2 <br>
-<br> 
-## Project Title
-MusicCloud - A Spotify-Integrated web application <br>
-<br> 
-## Background
-I want to build this web application to allow users to discover new music, search for tracks, view artists and album information, manage their playlists and save their favourite songs. By integrating Spotify API with Spotify Scraper API, users can easily discover and explore new music through this web application. <br>
-<br>
+# MusicCloud – A Spotify-Integrated Web Application
+
+**Name:** Shang Xian  
+**Module Group:** L2  
+
+---
+
+## Project Overview
+
+**MusicCloud** is a full-stack web application that integrates the **Spotify Web API** and **Spotify Scraper API** to enable users to explore music seamlessly.  
+Users can search for tracks, browse artists and albums, manage playlists, and discover new music—all within one platform.
+
+---
+
+## Project Objectives
+
+- Provide a simple and interactive interface for music discovery  
+- Allow users to manage and personalize their playlists  
+- Integrate real-time music data from Spotify  
+- Support collaboration and personalization features  
+
+---
+
 ## Key Features
-1. User registration
-2. User login
-3. User logout
-4. Create playlists
-5. Retrieve playlists
-6. Update playlists
-7. Delete playlists
-8. Search playlists by name
-9. Like songs
-10. Collaborative playlists
 
-## External API(s) that you would like to use
-1. Spotify API 
-<br> - Reference: [Spotify Web API](https://developer.spotify.com/documentation/web-api)
-2. Lyrics.ovh API 
-<br> - Reference: [lyrics.ovh](https://lyricsovh.docs.apiary.io/#)
+### User Management
+1. User registration  
+2. User login  
+3. User logout  
 
-## Additional node modules that you would like to use
-Axios <br>
-dotenv
-<br>
+### Playlist Management
+4. Create playlists  
+5. Retrieve playlists  
+6. Update playlists  
+7. Delete playlists  
+8. Search playlists by name  
+
+### Additional Features
+9. Like / Save songs  
+10. Collaborative playlists  
+
+---
+
+## External APIs Used
+
+### **1. Spotify Web API**  
+Used for searching tracks, retrieving artist/album details, playlist actions, and more.  
+https://developer.spotify.com/documentation/web-api
+
+### **2. Lyrics.ovh API**  
+Used to retrieve song lyrics.  
+https://lyricsovh.docs.apiary.io/#
+
+---
+
+## Node Modules Used
+
+| Module | Purpose |
+|--------|---------|
+| **axios** | To send HTTP requests to Spotify API & Lyrics API |
+| **dotenv** | To securely load environment variables |
+
+---
+
 ## References
-[Spotify Web API](https://developer.spotify.com/documentation/web-api) <br>
-[lyrics.ovh](https://lyricsovh.docs.apiary.io/#) <br>
-[axios](https://www.npmjs.com/package/axios) <br>
-[dotenv](https://www.npmjs.com/package/dotenv)
-<br>
-<br>
-:warning: This repository includes gitignore file which will not commit certain files or folders (especially node_modules folder) for a node.js project into the repository.  
-**Please do not remove the .gitignore file as it will help to minimize the size of the project in the repository.** 
+
+- **Postman Documentation:**  
+  https://documenter.getpostman.com/view/22496603/2sB3dPTWb2  
+- **Spotify Web API:**  
+  https://developer.spotify.com/documentation/web-api  
+- **Lyrics.ovh API:**  
+  https://lyricsovh.docs.apiary.io/#  
+- **axios:**  
+  https://www.npmjs.com/package/axios  
+- **dotenv:**  
+  https://www.npmjs.com/package/dotenv  
+
+---
+
+## Important Note
+
+This project includes a `.gitignore` file that **prevents large or unnecessary files (especially `node_modules`) from being committed**.  
+**Do NOT remove the `.gitignore` file**, as it helps keep the repository clean and optimized.
+
+---
