@@ -1,0 +1,326 @@
+{
+	"info": {
+		"_postman_id": "5d5e2efc-cd4b-4aa9-a048-f8074c78a98b",
+		"name": "MusicCloud collection",
+		"description": "The **MusicCloud REST API** allows users to manage playlists through the core CRUD (Create, Read, Update and Delete) features, allowing users to manage their playlist collections. Additionally, the API allows users to **like songs**, **collaborate on playlists**, and manage their accounts through **registration, login, and logout** features.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22496603",
+		"_collection_link": "https://universal-shuttle-274256.postman.co/workspace/d3254e94-53e1-45c3-a4a1-96e0ff1b10c3/collection/22496603-5d5e2efc-cd4b-4aa9-a048-f8074c78a98b?action=share&source=collection_link&creator=22496603"
+	},
+	"item": [
+		{
+			"name": "add playlist",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "rap",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "my rap playlist",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "tommy",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/playlists",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"playlists"
+					]
+				},
+				"description": "Creates a new playlist with name, description, and username."
+			},
+			"response": []
+		},
+		{
+			"name": "get all playlists",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Playlist 1",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "my first playlist",
+							"type": "text"
+						},
+						{
+							"key": "creator",
+							"value": "Timmy",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/playlists",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"playlists"
+					]
+				},
+				"description": "Retrieves all playlists"
+			},
+			"response": []
+		},
+		{
+			"name": "register user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "tom",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "tom@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "pass",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/users",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users"
+					]
+				},
+				"description": "Registers users with username, email and password"
+			},
+			"response": []
+		},
+		{
+			"name": "update playlist name",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "chill songs",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/playlists/name/chill playlist",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"playlists",
+						"name",
+						"chill playlist"
+					]
+				},
+				"description": "Updates playlist by name"
+			},
+			"response": []
+		},
+		{
+			"name": "delete playlist",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "chill2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/playlists/name/chill songs",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"playlists",
+						"name",
+						"chill songs"
+					]
+				},
+				"description": "Deletes playlist by name"
+			},
+			"response": []
+		},
+		{
+			"name": "search playlists",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "rock",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/playlists/search",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"playlists",
+						"search"
+					]
+				},
+				"description": "Search playlists by name"
+			},
+			"response": []
+		},
+		{
+			"name": "like songs",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "songId",
+							"value": "demo",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "Rocket Man",
+							"type": "text"
+						},
+						{
+							"key": "artist",
+							"value": "Elton John",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/users/tom/like",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users",
+						"tom",
+						"like"
+					]
+				},
+				"description": "Like songs by song name"
+			},
+			"response": []
+		},
+		{
+			"name": "get liked songs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/users/tom/likes",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"users",
+						"tom",
+						"likes"
+					]
+				},
+				"description": "Retrieves all liked songs"
+			},
+			"response": []
+		},
+		{
+			"name": "add collaborators to playlist",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "tom",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/playlists/chill/collaborators",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"playlists",
+						"chill",
+						"collaborators"
+					]
+				},
+				"description": "Add collaborators to playlist by name"
+			},
+			"response": []
+		}
+	]
+}

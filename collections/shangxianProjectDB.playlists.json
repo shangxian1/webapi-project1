@@ -1,0 +1,58 @@
+[{
+  "_id": {
+    "$oid": "6932d6986a4ff6c87d040669"
+  },
+  "name": "chill",
+  "description": "my chill playlist",
+  "creator": "6932cbe09a257e2399e4f6e0",
+  "collaborators": [],
+  "tracks": [],
+  "createdAt": {
+    "$date": "2025-12-05T12:56:56.748Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6932d70a6a4ff6c87d040671"
+  },
+  "name": "rock",
+  "description": "my rock playlist",
+  "creator": "6932cb729a257e2399e4f6dc",
+  "collaborators": [],
+  "tracks": [],
+  "createdAt": {
+    "$date": "2025-12-05T12:58:50.086Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6932d72c6a4ff6c87d040675"
+  },
+  "name": "christmas",
+  "description": "my christmas playlist",
+  "creator": "69328c6551a12b0cbde578d8",
+  "collaborators": [],
+  "tracks": [],
+  "createdAt": {
+    "$date": "2025-12-05T12:59:24.162Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6932d8f00764dae9789424c4"
+  },
+  "creator": {
+    "$oid": "6932cb729a257e2399e4f6dc"
+  },
+  "name": "rap",
+  "description": "my rap playlist",
+  "collaborators": [],
+  "tracks": [],
+  "createdAt": {
+    "$date": "2025-12-05T13:06:56.797Z"
+  },
+  "__v": 0
+}]

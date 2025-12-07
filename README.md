@@ -1,24 +1,40 @@
 # WAD Project
-Name:  <br>
-Module Group: <br>
+Name:  Shang Xian <br>
+Module Group: L2 <br>
 <br> 
 ## Project Title
-Please give a meaningful name for your application. <br>
+MusicCloud - A Spotify-Integrated web application <br>
 <br> 
 ## Background
-Why do you want to build this web application? <br>
+I want to build this web application to allow users to discover new music, search for tracks, view artists and album information, manage their playlists and save their favourite songs. By integrating Spotify API with Spotify Scraper API, users can easily discover and explore new music through this web application. <br>
 <br>
 ## Key Features
-Write down clearly what are the things the user can perform with your web application.<br>
-<br> 
+1. User registration
+2. User login
+3. User logout
+4. Create playlists
+5. Retrieve playlists
+6. Update playlists
+7. Delete playlists
+8. Search playlists by name
+9. Like songs
+10. Collaborative playlists
+
 ## External API(s) that you would like to use
-Describe which external APIs that you would like to use and how you would use them. Put the reference links where you found the APIs.<br>
-<br> 
+1. Spotify API 
+<br> - Reference: [Spotify Web API](https://developer.spotify.com/documentation/web-api)
+2. Lyrics.ovh API 
+<br> - Reference: [lyrics.ovh](https://lyricsovh.docs.apiary.io/#)
+
 ## Additional node modules that you would like to use
-Describe any node modules that you would like to use or have used in the current stage of the project.<br>
+Axios <br>
+dotenv
 <br>
 ## References
-Put all the reference links where you have used for your project<br>
+[Spotify Web API](https://developer.spotify.com/documentation/web-api) <br>
+[lyrics.ovh](https://lyricsovh.docs.apiary.io/#) <br>
+[axios](https://www.npmjs.com/package/axios) <br>
+[dotenv](https://www.npmjs.com/package/dotenv)
 <br>
 <br>
 :warning: This repository includes gitignore file which will not commit certain files or folders (especially node_modules folder) for a node.js project into the repository.  

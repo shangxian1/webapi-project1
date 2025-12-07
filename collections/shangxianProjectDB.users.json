@@ -1,0 +1,57 @@
+[{
+  "_id": {
+    "$oid": "69328c6551a12b0cbde578d8"
+  },
+  "username": "timmy",
+  "email": "timmy@gmail.com",
+  "password": "pass",
+  "createdAt": {
+    "$date": "2025-12-05T07:40:21.349Z"
+  },
+  "__v": 0,
+  "likedSongs": [
+    {
+      "songId": "demo",
+      "title": "See You Again",
+      "artist": "Tyler, the Creator",
+      "_id": {
+        "$oid": "6932cc90881cef50d7dd162f"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6932cb729a257e2399e4f6dc"
+  },
+  "username": "tommy",
+  "email": "tommy@gmail.com",
+  "password": "pass",
+  "likedSongs": [],
+  "createdAt": {
+    "$date": "2025-12-05T12:09:22.949Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6932cbe09a257e2399e4f6e0"
+  },
+  "username": "tom",
+  "email": "tom@gmail.com",
+  "password": "pass",
+  "likedSongs": [
+    {
+      "songId": "demo",
+      "title": "Rocket Man",
+      "artist": "Elton John",
+      "_id": {
+        "$oid": "6932cdbcc61ac81884603f82"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-12-05T12:11:12.061Z"
+  },
+  "__v": 0
+}]
