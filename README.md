@@ -7,8 +7,8 @@
 
 ## Project Overview
 
-**MusicCloud** is a full-stack web application that integrates the **Spotify Web API** and **Spotify Scraper API** to enable users to explore music seamlessly.  
-Users can search for tracks, browse artists and albums, manage playlists, and discover new music—all within one platform.
+**MusicCloud** is a full-stack web application that integrates the **Spotify Web API** and **lyrics.ovh API** to enable users to explore music seamlessly.  
+Users can create, customize, and manage their playlists with full CRUD functionality, while also collaborating with others on shared playlists for a more connected and engaging music discovery journey.
 
 ---
 
