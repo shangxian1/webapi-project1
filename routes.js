@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require("./services/dbservice.js");
+const { getTrack } = require("./services/spotifyservice.js");
 
 db.connect()
     .then(function (response) {
@@ -120,5 +121,16 @@ router.post('/api/playlists/:playlistName/collaborators', function(req, res) {
         .catch(function (error) {
             res.status(500).json({ "message": error.message });
         });
+});
+
+// GET /api/spotify/track/:id
+router.get("/api/spotify/track/:id", async (req, res) => {
+    try {
+        const track = await getTrack(req.params.id);
+        res.status(200).json(track);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: err.message });
+    }
 });
 module.exports = router;
