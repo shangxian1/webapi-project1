@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const router = express.Router();
 const db = require("./services/dbservice.js");
 const { getTrack } = require("./services/spotifyservice.js");
@@ -16,7 +17,15 @@ router.use(express.urlencoded({
     extended: true
 }));
 
-router.get('/api/user/logout', authenticationCheck);
+router.post('/api/playlists', authenticationCheck); // add playlist
+router.post('/api/playlists/name/:playlistName/songs', authenticationCheck); // add song to playlist
+router.delete('/api/playlists/:playlistName/songs/:spotifyId', authenticationCheck); // remove song from playlist
+router.post('/api/users/:username/like', authenticationCheck); // like a song
+router.get('/api/users/:username/likes', authenticationCheck); // view liked songs
+router.post('/api/playlists/:playlistName/collaborators', authenticationCheck); // add collaborator
+router.get('/api/user/logout', authenticationCheck); // logout
+
+router.get('/api/playlists', authenticationCheck); // retrieve playlists of logged-in user
 
 //route for registering user
 router.post('/api/users', function (req, res) {
@@ -32,38 +41,53 @@ router.post('/api/users', function (req, res) {
 
 //route for add playlist
 router.post('/api/playlists', function (req, res) {
-    let data = req.body;
-    db.addPlaylist(data.name, data.description, data.username)
+    let userId = res.locals.userId; // obtained from authenticationCheck
+    let { name, description } = req.body;
+
+    db.addPlaylist(userId, name, description)
         .then(function (response) {
-            res.status(200).json({ "message": response });
+            res.status(200).json({ message: response });
         })
         .catch(function (error) {
-            res.status(500).json({ "message": error.message });
+            console.error(error);
+            res.status(500).json({ message: error.message });
         });
 })
 
 //route for retrieving all playlists
 router.get('/api/playlists', function (req, res) {
-    db.getAllPlaylists()
+    let userId = res.locals.userId; // set by authenticationCheck
+
+    db.getPlaylists(userId)
         .then(function (response) {
             res.status(200).json(response);
         })
         .catch(function (error) {
-            res.status(500).json({ "message": error.message });
+            console.error(error);
+            res.status(500).json({ "message": "Error retrieving user's playlists" });
         });
 })
 
 //route for updating playlist by name
 router.put('/api/playlists/name/:value', function (req, res) {
-    let value = req.params.value;
-    let data = req.body;
-    db.updatePlaylist({ name: value }, { name: data.name, description: data.description })
-        .then(function (response) {
-            res.status(200).json({ "message": response });
-        })
-        .catch(function (error) {
-            res.status(500).json({ "message": error.message });
-        });
+    const playlistName = req.params.value;
+    const { name, description } = req.body;
+    const userId = mongoose.Types.ObjectId(res.locals.userId); // convert to ObjectId
+
+    db.updatePlaylist(
+        { name: playlistName, creator: userId },
+        { name, description }
+    )
+    .then(function(response) {
+        if (response === "Unable to find playlist to update.") {
+            res.status(403).json({ message: "You are not authorized to update this playlist or it does not exist." });
+        } else {
+            res.status(200).json({ message: response });
+        }
+    })
+    .catch(function(error) {
+        res.status(500).json({ message: error.message });
+    });
 })
 
 //route for deleting playlist by name
@@ -150,6 +174,22 @@ router.post("/api/playlists/name/:playlistName/songs", async (req, res) => {
     }
 });
 
+router.delete("/api/playlists/:playlistName/songs/:spotifyId", async (req, res) => {
+    const { playlistName, spotifyId } = req.params;
+
+    try {
+        const updatedPlaylist = await db.removeSong(playlistName, spotifyId);
+
+        res.status(200).json({
+            message: `Song removed from playlist '${playlistName}'`,
+            playlist: updatedPlaylist
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: err.message });
+    }
+});
+
 //route for liking songs
 router.post('/api/users/:username/like', function (req, res) {
     db.likeSong(req.params.username, req.body)
@@ -173,7 +213,7 @@ router.get('/api/users/:username/likes', function (req, res) {
 });
 
 //route for adding collaborator to playlist
-router.post('/api/playlists/:playlistName/collaborators', function(req, res) {
+router.post('/api/playlists/:playlistName/collaborators', function (req, res) {
     const playlistName = req.params.playlistName;
     const username = req.body.username;
     db.addCollaborators(playlistName, username)

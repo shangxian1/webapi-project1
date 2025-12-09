@@ -33,35 +33,30 @@ let db = {
     },
 
     //Add Playlist
-    async addPlaylist(name, description, username) {
+    async addPlaylist(userId, name, description) {
         try {
-
-            const creator = await user.findOne({ username: username });
-            if (!creator) throw new Error("Creator user not found.");
-
             await playlist.create({
                 name: name,
                 description: description,
-                creator: creator._id
+                creator: userId
             });
-            return `Playlist ${name} has been added`;
-        }
-        catch (e) {
-            console.log(e.message);
-            throw new Error(`Playlist ${name} was not added.`);
+            return `Playlist '${name}' has been added.`;
+        } catch (e) {
+            console.error(e.message);
+            throw new Error(`Playlist '${name}' could not be added.`);
         }
     },
 
     //Retrieve playlists
-    async getAllPlaylists() {
+    async getPlaylists(userId) {
         try {
-            let results = await playlist.find()
+            const playlists = await playlist.find({ creator: userId })
                 .populate('creator', 'username')
                 .populate('collaborators', 'username');
-            return results;
+            return playlists;
         } catch (e) {
-            console.log(e.message);
-            throw new Error("Error retrieving playlists");
+            console.error(e.message);
+            throw new Error("Error retrieving user's playlists");
         }
     },
 
@@ -173,6 +168,44 @@ let db = {
         } catch (e) {
             console.log(e.message);
             throw new Error(`Unable to add song to playlist ${playlistName}.`);
+        }
+    },
+
+    //remove song
+
+    async removeSong(playlistName, spotifyId) {
+        try {
+            const updatedPlaylist = await playlist.findOneAndUpdate(
+                { name: playlistName },
+                { $pull: { songs: { spotifyTrackId: spotifyId } } }, // remove the song
+                { new: true }
+            )
+                .populate('creator', 'username')
+                .populate('collaborators', 'username');
+
+            if (!updatedPlaylist) throw new Error("Playlist not found.");
+            return updatedPlaylist;
+        } catch (e) {
+            console.log(e.message);
+            throw new Error(`Unable to remove song from playlist ${playlistName}.`);
+        }
+    },
+
+    async removeSong(playlistName, spotifyId) {
+        try {
+            const updatedPlaylist = await playlist.findOneAndUpdate(
+                { name: playlistName },
+                { $pull: { songs: { spotifyTrackId: spotifyId } } }, // remove the song
+                { new: true }
+            )
+                .populate('creator', 'username')
+                .populate('collaborators', 'username');
+
+            if (!updatedPlaylist) throw new Error("Playlist not found.");
+            return updatedPlaylist;
+        } catch (e) {
+            console.log(e.message);
+            throw new Error(`Unable to remove song from playlist ${playlistName}.`);
         }
     },
 
