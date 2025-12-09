@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const playlist = require("../models/playlist.js");
 const user = require("../models/user.js");
+const lyrics = require("../models/lyrics.js");
 
 let db = {
     async connect() {
