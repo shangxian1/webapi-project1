@@ -9,13 +9,13 @@ const playlistSchema = new mongoose.Schema({
     },
     name: { type: String, required: true },
     description: String,
-    tracks: [{
+    songs: [{
         spotifyTrackId: { type: String, required: true },
         name: { type: String, required: true },
         artist: { type: String, required: true },
-        previewUrl: String,
         durationMs: Number,
-        albumImage: String
+        albumImage: String,
+        spotifyUri: { type: String, required: true }
     }],
 
     collaborators: [{

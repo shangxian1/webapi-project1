@@ -57,7 +57,7 @@ let db = {
         try {
             let results = await playlist.find()
                 .populate('creator', 'username')
-                .populate('collaborators', 'username'); 
+                .populate('collaborators', 'username');
             return results;
         } catch (e) {
             console.log(e.message);
@@ -102,6 +102,80 @@ let db = {
             throw new Error(`Unable to retrieve playlists for ${username}`);
         }
     },
+
+    async getUser(username, password) {
+        try {
+            let result = await user.findOne({ username: username, password: password });
+            return result;
+        }
+        catch (e) {
+            console.log(e.message);
+            throw new Error("Error retrieving user info.");
+        }
+    },
+    async updateToken(id, token) {
+        try {
+            await user.findByIdAndUpdate(id, { token: token });
+            return;
+        }
+        catch (e) {
+            console.log(e.message);
+            throw new Error("Error at the server. Please try again later.");
+        }
+    },
+    async checkToken(token) {
+        try {
+            let result = await user.findOne({ token: token });
+            return result;
+        }
+        catch (e) {
+            console.log(e.message);
+            throw new Error("Error at the server. Please try again later.");
+        }
+    },
+    async removeToken(id) {
+        try {
+            await user.findByIdAndUpdate(id, { $unset: { token: 1 } });
+            return;
+        }
+        catch (e) {
+            console.log(e.message);
+            throw new Error("Error at the server. Please try again later.");
+        }
+    },
+
+    // Get playlist by name
+    async getPlaylistByName(name) {
+        try {
+            const result = await playlist.findOne({ name: name })
+                .populate('creator', 'username')
+                .populate('collaborators', 'username')
+                .lean(); // returns a plain JS object
+            return result;
+        } catch (e) {
+            console.log(e.message);
+            throw new Error(`Unable to retrieve playlist ${name}.`);
+        }
+    },
+
+    // Add song to a playlist by name
+    async addSongToPlaylistByName(playlistName, songObj) {
+        try {
+            const updatedPlaylist = await playlist.findOneAndUpdate(
+                { name: playlistName },
+                { $push: { songs: songObj } },
+                { new: true }
+            )
+                .populate('creator', 'username')
+                .populate('collaborators', 'username');
+            if (!updatedPlaylist) throw new Error("Playlist not found.");
+            return updatedPlaylist;
+        } catch (e) {
+            console.log(e.message);
+            throw new Error(`Unable to add song to playlist ${playlistName}.`);
+        }
+    },
+
 
     //additional feature 1: Like songs
     async likeSong(username, trackData) {

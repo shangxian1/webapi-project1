@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
         artist: String
     }],
 
-    createdAt: { type: Date, default: Date.now }
+    createdAt: { type: Date, default: Date.now },
+    token: String
 })
 module.exports = mongoose.model('users', userSchema);
