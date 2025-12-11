@@ -1,51 +1,70 @@
-import axios from "axios";
-import qs from "qs";
-import dotenv from "dotenv";
+const SpotifyWebApi = require('spotify-web-api-node');
 
-dotenv.config();
+require("dotenv").config();
+// Initialize Spotify API client
+const spotifyApi = new SpotifyWebApi({
+  clientId: process.env.SPOTIFY_CLIENT_ID,
+  clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+});
 
-let spotifyToken = null;
-let tokenExpiresAt = 0;
 
-async function getSpotifyToken() {
-    const now = Date.now();
+// Token management
+let tokenRefreshTimeout = null;
 
-    if (spotifyToken && now < tokenExpiresAt) return spotifyToken;
+const refreshAccessToken = async () => {
+  try {
+    const data = await spotifyApi.clientCredentialsGrant();
+    spotifyApi.setAccessToken(data.body['access_token']);
+    
+    console.log(`Access token refreshed. Expires in ${data.body['expires_in']} seconds`);
+    
+    if (tokenRefreshTimeout) clearTimeout(tokenRefreshTimeout);
 
-    const tokenUrl = "https://accounts.spotify.com/api/token";
-    const data = qs.stringify({ grant_type: "client_credentials" });
+    tokenRefreshTimeout = setTimeout(
+      refreshAccessToken,
+      (data.body['expires_in'] - 60) * 1000
+    );
 
-    const response = await axios.post(tokenUrl, data, {
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": "Basic " + Buffer.from(
-                process.env.SPOTIFY_CLIENT_ID + ":" + process.env.SPOTIFY_CLIENT_SECRET
-            ).toString("base64")
-        }
-    });
+  } catch (error) {
+    console.error('Error refreshing access token:', error.message);
+    setTimeout(refreshAccessToken, 30000);
+  }
+};
 
-    spotifyToken = response.data.access_token;
-    tokenExpiresAt = now + response.data.expires_in * 1000;
+// Initialize first token
+refreshAccessToken().catch(console.error);
 
-    return spotifyToken;
-}
+// ───────────────────────────────────────────────
+// SERVICE METHODS
+// ───────────────────────────────────────────────
+const spotifyService = {
 
-export async function getTrack(trackId) {
-    const token = await getSpotifyToken();
-    const res = await axios.get(`https://api.spotify.com/v1/tracks/${trackId}`, {
-        headers: { Authorization: `Bearer ${token}` }
-    });
+  // Search songs and return in your exact schema
+  async searchTracks(query, limit = 10) {
+    try {
+      const res = await spotifyApi.searchTracks(query, {
+        limit: limit,
+        market: "US"
+      });
 
-    const track = res.data;
+      const items = res.body?.tracks?.items || [];
 
-    // Map exactly to your playlist schema
-    return {
+      return items.map(track => ({
         spotifyTrackId: track.id,
         name: track.name,
-        artist: track.artists.length > 0 ? track.artists[0].name : "Unknown Artist",
+        artist: track.artists?.[0]?.name || "Unknown Artist",
         previewUrl: track.preview_url || null,
         durationMs: track.duration_ms || null,
         albumImage: track.album?.images?.[0]?.url || null,
         spotifyUri: track.uri
-    };
-}
+      }));
+
+    } catch (err) {
+      console.error("Error searching Spotify:", err);
+      throw err;
+    }
+  }
+
+};
+
+module.exports = spotifyService;

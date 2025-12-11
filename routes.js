@@ -4,6 +4,7 @@ const router = express.Router();
 const db = require("./services/dbservice.js");
 const { getTrack } = require("./services/spotifyservice.js");
 const crypto = require('crypto');
+const spotifyService = require("./services/spotifyservice.js");
 
 db.connect()
     .then(function (response) {
@@ -223,6 +224,34 @@ router.post('/api/playlists/:playlistName/collaborators', function (req, res) {
         .catch(function (error) {
             res.status(500).json({ "message": error.message });
         });
+});
+
+router.get("/spotify/search", async (req, res) => {
+    try {
+        const query = req.query.q;
+        const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+
+        if (!query) {
+            return res.status(400).json({
+                error: "Missing required query parameter: q"
+            });
+        }
+
+        const results = await spotifyService.searchTracks(query, limit);
+
+        return res.json({
+            success: true,
+            count: results.length,
+            tracks: results
+        });
+
+    } catch (err) {
+        console.error("Error in /spotify/search:", err);
+        return res.status(500).json({
+            error: "Failed to search tracks",
+            details: err.message
+        });
+    }
 });
 
 // GET /api/spotify/track/:id
