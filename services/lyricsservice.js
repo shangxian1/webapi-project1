@@ -1,31 +1,35 @@
 const axios = require("axios");
-const Lyrics = require("../models/lyrics.js");
-const { getTrack } = require("./spotifyservice.js");
+const lyricsModel = require("../models/lyrics.js");
 
-async function getLyrics(trackId) {
-    // Check cache
-    const cached = await Lyrics.findById(trackId);
-    if (cached) return cached;
+const lyricsService = {
 
-    // Get song info from Spotify
-    const track = await getTrack(trackId);
-    const artist = track.artists[0].name;
-    const title = track.name;
+    async getLyrics(spotifyTrackId, artist, title) {
+        try {
+            // Check cached lyrics
+            const cached = await lyricsModel.findOne({ spotifyTrackId });
+            if (cached) return cached.lyrics;
 
-    // Fetch lyrics
-    const url = `https://api.lyrics.ovh/v1/${artist}/${title}`;
-    const res = await axios.get(encodeURI(url));
+            // Call lyrics.ovh
+            const url = `https://api.lyrics.ovh/v1/${artist}/${title}`;
+            const response = await axios.get(url);
 
-    const lyricsObj = {
-        _id: trackId,
-        title,
-        artist,
-        lyrics: res.data.lyrics,
-        lastFetched: new Date()
-    };
+            const lyrics = response.data?.lyrics || "Lyrics not found.";
 
-    await Lyrics.create(lyricsObj);
-    return lyricsObj;
-}
+            // Cache it into DB
+            await lyricsModel.create({
+                spotifyTrackId,
+                lyrics,
+                cachedAt: new Date()
+            });
 
-module.exports = { getLyrics };
+            return lyrics;
+
+        } catch (err) {
+            console.error("Lyrics.ovh error:", err.message);
+            return "Lyrics not available.";
+        }
+    }
+
+};
+
+module.exports = lyricsService;

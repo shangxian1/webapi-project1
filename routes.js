@@ -5,6 +5,7 @@ const db = require("./services/dbservice.js");
 const { getTrack } = require("./services/spotifyservice.js");
 const crypto = require('crypto');
 const spotifyService = require("./services/spotifyservice.js");
+const lyricsService = require("./services/lyricsservice.js");
 
 db.connect()
     .then(function (response) {
@@ -284,6 +285,34 @@ function authenticationCheck(req, res, next) {
             });
     }
 }
+
+router.get("/api/lyrics/:spotifyId", async (req, res) => {
+    try {
+        const trackId = req.params.spotifyId;
+
+        const track = await getTrack(trackId);
+
+        if (!track) {
+            return res.status(404).json({ message: "Track not found." });
+        }
+
+        // Extract artist + title for lyrics.ovh
+        const { name, artist } = track;
+
+        const lyrics = await lyricsService.getLyrics(trackId, artist, name);
+
+        return res.status(200).json({
+            trackId,
+            title: name,
+            artist,
+            lyrics
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Failed to get lyrics." });
+    }
+});
 
 module.exports = router;
 
