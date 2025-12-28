@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <link rel="stylesheet" href="./css/register.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="register-container">
+        <header class="register-header">
+            <a href="/" class="logo">MusicCloud</a>
+        </header>
+
+        <main class="register-content">
+            <h1>Sign up for free to start listening.</h1>
+            
+            <form id="registerForm">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" placeholder="Enter a profile name" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" placeholder="Create a password" required>
+                </div>
+
+                <div id="statusMessage"></div>
+
+                <div class="register-actions">
+                    <input type="submit" value="SIGN UP">
+                </div>
+            </form>
+
+            <hr>
+
+            <p class="login-prompt">
+                Have an account? <a href="/login.html">LOG IN</a>
+            </p>
+        </main>
+    </div>
+
+    <script src="./js/jquery-3.7.1.min.js"></script>
+    <script src="./js/auth.js"></script>
+</body>
+</html>

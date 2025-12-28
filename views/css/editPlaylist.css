@@ -1,0 +1,151 @@
+/* --- Global Reset & Styles --- */
+body {
+    background-color: #121212;
+    color: #FFFFFF;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+header {
+    width: 100%;
+    padding: 1.5rem 2rem;
+    box-sizing: border-box;
+}
+
+header a {
+    color: #b3b3b3;
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.3s;
+}
+
+header a:hover {
+    color: white;
+}
+
+/* --- Layout Container --- */
+.detail-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+/* --- Header Card --- */
+.header-card {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.header-card h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.04em;
+}
+
+.header-card p {
+    color: #b3b3b3;
+    font-size: 1rem;
+}
+
+/* --- Form Styling --- */
+#editPlaylistForm {
+    background-color: #181818;
+    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 1rem;
+    background-color: #282828;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: white;
+    font-family: inherit;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    outline: none;
+    background-color: #333333;
+    border-color: #727272;
+}
+
+textarea {
+    resize: vertical; /* Allows user to resize height but not width */
+}
+
+/* --- Status Messages --- */
+#statusMessage {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    min-height: 1.2rem;
+}
+
+/* --- Buttons --- */
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.spotify-btn {
+    background-color: #1DB954;
+    color: black;
+    border: none;
+    padding: 1rem;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 500px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.spotify-btn:hover {
+    background-color: #1ed760;
+    transform: scale(1.02);
+}
+
+.outline-btn {
+    background-color: transparent;
+    color: white;
+    border: 1px solid #727272;
+    padding: 1rem;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 500px;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.outline-btn:hover {
+    border-color: white;
+}

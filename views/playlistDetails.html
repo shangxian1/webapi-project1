@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playlist Details</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/playlistDetails.css">
+</head>
+
+<body>
+    <header>
+        <a href="/">Home</a>
+        <div class="authenticatedSection">
+            <a href="/likes.html">Liked Songs</a> <a href="/addPlaylist.html">Create Playlist</a>
+            <a href="#" id="logoutLink">Logout</a>
+        </div>
+        <div class="unauthenticatedSection">
+            <a href="/login.html">Login</a>
+            <a href="/register.html">Register</a>
+        </div>
+    </header>
+
+    <main class="authenticatedSection detail-container">
+
+        <div class="content-area">
+            <div id="playlistHeader" class="header-card">
+                <h1 id="displayPlaylistName">Playlist Name</h1>
+                <p id="displayDescription"></p>
+
+                <div class="meta-row">
+                    <p id="displayCreator"></p>
+                    <div id="collaboratorListSection">
+                        <span class="label">Collaborators:</span>
+                        <p id="displayCollaborators"></p>
+                    </div>
+                </div>
+            </div>
+
+            <section class="track-section">
+                <h2>Tracks</h2>
+                <div id="songList" class="track-list">
+                </div>
+            </section>
+        </div>
+
+        <aside class="sidebar">
+            <section class="side-panel" id="playerContainer">
+                <h3>Now Playing</h3>
+                <div id="spotifyEmbed">
+                    <p style="color: #b3b3b3; font-size: 0.8rem;">Select a track to play</p>
+                </div>
+            </section>
+            <section class="side-panel" id="lyricsPanel" style="display:none;">
+                <div class="side-panel-header">
+                    <h3>Lyrics</h3>
+                    <button id="hideLyrics" class="small-link">Hide</button>
+                </div>
+                <div id="lyricsBody" class="lyrics-content">
+                </div>
+            </section>
+            <section class="side-panel" id="songSearchPanel">
+                <h3>Find Songs</h3>
+                <form id="spotifySearchForm">
+                    <input type="text" id="spotifySearchInput" placeholder="Artist or track..." required>
+                    <input type="submit" value="Search Spotify" class="spotify-btn">
+                </form>
+                <div id="spotifyResults" class="search-results-mini">
+                </div>
+            </section>
+            <audio id="audioPlayer"></audio>
+            <section class="side-panel">
+                <h3>Settings</h3>
+                <form id="addCollaboratorForm">
+                    <label class="label">Add Collaborator</label>
+                    <input type="text" name="username" id="collabUsername" placeholder="Enter username" required>
+                    <input type="submit" value="Invite User" class="outline-btn">
+                </form>
+                <div id="collabStatus"></div>
+            </section>
+        </aside>
+    </main>
+
+    <script src="./js/jquery-3.7.1.min.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/playlistDetails.js"></script>
+</body>
+
+</html>

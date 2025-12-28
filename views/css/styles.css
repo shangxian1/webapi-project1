@@ -1,0 +1,372 @@
+/* --- Global Styles --- */
+:root {
+    --spotify-green: #1DB954;
+    --spotify-black: #121212;
+    --spotify-dark-grey: #181818;
+    --spotify-light-grey: #282828;
+    --spotify-white: #FFFFFF;
+    --spotify-text-grey: #b3b3b3;
+}
+
+body {
+    background-color: var(--spotify-black);
+    color: var(--spotify-white);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Header & Navigation --- */
+header {
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header a {
+    color: var(--spotify-text-grey);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-right: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+header a:hover {
+    color: var(--spotify-white);
+}
+
+/* Login/Register Section */
+.unauthenticatedSection a[href="/login.html"] {
+    background-color: var(--spotify-white);
+    color: black;
+    padding: 0.8rem 2rem;
+    border-radius: 500px;
+    margin-left: 1rem;
+}
+
+.unauthenticatedSection a[href="/login.html"]:hover {
+    transform: scale(1.05);
+}
+
+/* --- Main Content --- */
+main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.04em;
+}
+
+/* --- Search Bar --- */
+#searchForm {
+    margin-bottom: 3rem;
+    display: flex;
+    gap: 10px;
+}
+
+#searchForm input[type="text"] {
+    background-color: var(--spotify-light-grey);
+    border: none;
+    border-radius: 500px;
+    padding: 0.8rem 1.5rem;
+    color: white;
+    width: 300px;
+    font-size: 0.9rem;
+}
+
+#searchForm input[type="submit"] {
+    background-color: var(--spotify-green);
+    color: white;
+    border: none;
+    border-radius: 500px;
+    padding: 0.8rem 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+#searchForm input[type="submit"]:hover {
+    transform: scale(1.04);
+    background-color: #1ed760;
+}
+
+/* --- Playlist Grid --- */
+.playlists {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+article {
+    background-color: var(--spotify-dark-grey);
+    padding: 1.2rem;
+    border-radius: 8px; 
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+article:hover {
+    background-color: var(--spotify-light-grey);
+}
+
+article h2 {
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+article p {
+    color: var(--spotify-text-grey);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+.authenticatedSection, 
+.unauthenticatedSection {
+    display: none; 
+}
+
+#songList {
+    margin-top: 2rem;
+}
+
+.song-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #181818;
+    border-bottom: 1px solid #282828;
+    transition: background 0.3s;
+}
+
+.song-item:hover {
+    background-color: #282828;
+}
+
+.btn-remove {
+    background: transparent;
+    color: #b3b3b3;
+    border: 1px solid #b3b3b3;
+    border-radius: 500px;
+    padding: 5px 15px;
+    cursor: pointer;
+}
+
+.btn-remove:hover {
+    color: #ff4d4d;
+    border-color: #ff4d4d;
+}
+
+/* Container for all playlist cards */
+.playlists {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+/* Individual Playlist Card */
+.playlist-card {
+    background-color: #181818; /* Dark Grey [cite: 69] */
+    border-radius: 8px;
+    padding: 20px;
+    transition: background-color 0.3s;
+    border: 1px solid #282828; /* [cite: 70] */
+}
+
+.playlist-card:hover {
+    background-color: #282828;
+}
+
+/* Styling for the individual song row [cite: 66] */
+.song-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.song-item {
+    padding: 10px 0; 
+    border-bottom: 1px solid #282828; 
+}
+
+/* The wrapper that handles horizontal alignment */
+.song-content {
+    display: flex; /* Aligns image and text side-by-side */
+    align-items: center; /* Centers items vertically */
+    gap: 15px; /* Adds space between the image and the text */
+}
+
+.album-thumb {
+    width: 48px; /* Fixed size for consistency */
+    height: 48px;
+    border-radius: 4px; /* Slightly rounded corners */
+    object-fit: cover; /* Prevents image distortion */
+}
+
+.song-details {
+    display: flex;
+    flex-direction: column; /* Stacks Song Name above Artist name */
+    justify-content: center;
+}
+
+.song-name {
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.song-artist {
+    color: #b3b3b3;
+    font-size: 0.85rem;
+}
+
+.manage-btn {
+    display: inline-block;
+    background-color: #1DB954; /* Spotify Green */
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.edit-btn {
+    background-color: #282828;
+    color: #b3b3b3;
+    border: 1px solid #727272;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.edit-btn:hover {
+    border-color: #fff;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.delete-btn {
+    background-color: transparent;
+    color: #ff4d4d; /* Soft Red */
+    border: 1px solid #ff4d4d;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 10px;
+    transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1200&q=80');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 100px 20px;
+    text-align: center;
+    border-radius: 12px;
+    margin-bottom: 40px;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto 30px;
+    color: #cccccc;
+}
+
+/* Buttons */
+.btn-primary, .btn-secondary {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+.btn-primary {
+    background-color: #1db954; /* Green */
+    color: white;
+    margin-right: 15px;
+}
+
+.btn-secondary {
+    border: 2px solid white;
+    color: white;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+    transform: scale(1.05);
+}
+
+/* Features Section */
+.features {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    padding: 40px 0;
+}
+
+.feature-card {
+    background: #181818;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    flex: 1;
+    transition: background 0.3s;
+}
+
+.feature-card:hover {
+    background: #282828;
+}
+
+.feature-card .icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.feature-card h3 {
+    margin-bottom: 10px;
+    color: #1db954;
+}
+
+.feature-card p {
+    color: #b3b3b3;
+    font-size: 0.9rem;
+}
+

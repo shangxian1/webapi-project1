@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Playlist</title>
+    <link rel="stylesheet" href="./css/editPlaylist.css"> </head>
+<body>
+    <header>
+        <a href="/">Home</a>
+    </header>
+
+    <main class="detail-container">
+        <div class="header-card">
+            <h1>Edit Playlist</h1>
+            <p>Update your playlist details below.</p>
+        </div>
+
+        <form id="editPlaylistForm" class="side-panel">
+            <div class="input-group">
+                <label>Playlist Name</label>
+                <input type="text" id="editName" name="name" required>
+            </div>
+            <div class="input-group">
+                <label>Description</label>
+                <textarea id="editDescription" name="description" rows="4"></textarea>
+            </div>
+            <div id="statusMessage"></div>
+            <div class="button-group">
+                <input type="submit" value="Save Changes" class="spotify-btn">
+                <a href="/" class="outline-btn" style="text-decoration: none; text-align: center;">Cancel</a>
+            </div>
+        </form>
+    </main>
+
+    <script src="./js/jquery-3.7.1.min.js"></script>
+    <script src="./js/editPlaylist.js"></script>
+</body>
+</html>

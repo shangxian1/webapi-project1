@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="./css/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <header class="login-header">
+            <a href="/" class="logo">MusicCloud</a>
+        </header>
+
+        <main class="login-content">
+            <h1>To continue, log in to MusicCloud.</h1>
+            
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" placeholder="Username" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" placeholder="Password" required>
+                </div>
+
+                <div id="statusMessage"></div> <div class="login-actions">
+                    <input type="submit" value="LOG IN">
+                </div>
+            </form>
+
+            <hr>
+
+            <p class="signup-prompt">
+                Don't have an account? <a href="/register.html">SIGN UP FOR MusicCloud</a>
+            </p>
+        </main>
+    </div>
+
+    <script src="./js/jquery-3.7.1.min.js"></script>
+    <script src="./js/auth.js"></script>
+</body>
+</html>

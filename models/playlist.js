@@ -14,7 +14,9 @@ const playlistSchema = new mongoose.Schema({
         name: { type: String, required: true },
         artist: { type: String, required: true },
         durationMs: Number,
+        albumName: String,
         albumImage: String,
+        previewUrl: String,
         spotifyUri: { type: String, required: true }
     }],
 

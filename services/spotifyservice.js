@@ -15,9 +15,9 @@ const refreshAccessToken = async () => {
   try {
     const data = await spotifyApi.clientCredentialsGrant();
     spotifyApi.setAccessToken(data.body['access_token']);
-    
+
     console.log(`Access token refreshed. Expires in ${data.body['expires_in']} seconds`);
-    
+
     if (tokenRefreshTimeout) clearTimeout(tokenRefreshTimeout);
 
     tokenRefreshTimeout = setTimeout(
@@ -55,6 +55,7 @@ const spotifyService = {
         artist: track.artists?.[0]?.name || "Unknown Artist",
         previewUrl: track.preview_url || null,
         durationMs: track.duration_ms || null,
+        albumName: track.album?.name || "Unknown Album",
         albumImage: track.album?.images?.[0]?.url || null,
         spotifyUri: track.uri
       }));
@@ -62,6 +63,28 @@ const spotifyService = {
     } catch (err) {
       console.error("Error searching Spotify:", err);
       throw err;
+    }
+  },
+
+  async getTrack(trackId) {
+    try {
+      const res = await spotifyApi.getTrack(trackId);
+      const track = res.body;
+
+      // Return an object that matches your playlist schema
+      return {
+        spotifyTrackId: track.id,
+        name: track.name,
+        artist: track.artists?.[0]?.name || "Unknown Artist",
+        previewUrl: track.preview_url || null,
+        durationMs: track.duration_ms || null,
+        albumName: track.album?.name || "Unknown Album",
+        albumImage: track.album?.images?.[0]?.url || null,
+        spotifyUri: track.uri
+      };
+    } catch (err) {
+      console.error("Error fetching track from Spotify:", err.message);
+      throw new Error("Failed to retrieve track details from Spotify.");
     }
   }
 

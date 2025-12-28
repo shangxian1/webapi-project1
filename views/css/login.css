@@ -1,0 +1,129 @@
+/* --- Global Styles --- */
+body {
+    background-color: #121212;
+    color: #FFFFFF;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 450px;
+    padding: 2rem;
+}
+
+/* --- Header & Logo --- */
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #282828;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: white;
+}
+
+/* --- Content & Form --- */
+.login-content h1 {
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    letter-spacing: -0.02em;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 0.85rem;
+    background-color: #121212;
+    border: 1px solid #727272;
+    border-radius: 4px;
+    color: white;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+input:focus {
+    outline: 2px solid white;
+    border-color: transparent;
+}
+
+/* --- Login Button --- */
+.login-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+}
+
+input[type="submit"] {
+    background-color: #1DB954; /* Green [cite: 141] */
+    color: black;
+    border: none;
+    padding: 0.8rem 2.5rem;
+    font-weight: 700;
+    border-radius: 500px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s;
+}
+
+input[type="submit"]:hover {
+    background-color: #1ed760;
+    transform: scale(1.04);
+}
+
+/* --- Status Messages [cite: 142, 143, 144] --- */
+#statusMessage {
+    color: #e74c3c; /* Red error text */
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+/* --- Footer Area --- */
+hr {
+    border: 0;
+    border-top: 1px solid #282828;
+    margin: 2rem 0;
+}
+
+.signup-prompt {
+    text-align: center;
+    color: #b3b3b3;
+    font-size: 0.9rem;
+}
+
+.signup-prompt a {
+    display: block;
+    margin-top: 1rem;
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    border: 1px solid #727272;
+    padding: 0.8rem;
+    border-radius: 500px;
+    transition: border-color 0.3s;
+}
+
+.signup-prompt a:hover {
+    border-color: white;
+}

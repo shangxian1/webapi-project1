@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+    <header>
+        <a href="/">Home</a>
+        <div class="authenticatedSection">
+            <a href="/likes.html">Liked Songs</a> <a href="/addPlaylist.html">Create Playlist</a>
+            <a href="#" id="logoutLink">Logout</a>
+        </div>
+        <div class="unauthenticatedSection">
+            <a href="/login.html">Login</a>
+            <a href="/register.html">Register</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="unauthenticatedSection">
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>Music for every moment.</h1>
+                    <p>Millions of songs and playlists waiting for you. Join MusicCloud today and start your journey.
+                    </p>
+                    <div class="hero-btns">
+                        <a href="/register.html" class="btn-primary">Register</a>
+                        <a href="/login.html" class="btn-secondary">Log In</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="features">
+                <div class="feature-card">
+                    <div class="icon">🎧</div>
+                    <h3>Unlimited Streaming</h3>
+                    <p>Listen to your favorite tracks without limits.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">📂</div>
+                    <h3>Create Playlists</h3>
+                    <p>Organize your music exactly how you want it.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🔥</div>
+                    <h3>Discover New Hits</h3>
+                    <p>Get recommendations based on your unique taste.</p>
+                </div>
+            </section>
+        </div>
+
+        <div class="authenticatedSection">
+            <form id="searchForm">
+                <input type="text" name="name" placeholder="Search playlists...">
+                <input type="submit" value="Search">
+            </form>
+            <div id="welcomeUserSection" style="margin: 20px 0; text-align: left;">
+                <h2 id="welcomeHeading" style="font-size: 1.8rem; margin: 0;"></h2>
+                <p style="color: #b3b3b3; margin-top: 5px;">Ready to listen to some music?</p>
+            </div>
+            <div id="statusMessage" style="text-align: center; margin-bottom: 1rem;"></div>
+            <h1>Your Playlists</h1>
+            <section class="playlists"></section>
+        </div>
+    </main>
+
+    <script src="./js/jquery-3.7.1.min.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/index.js"></script>
+</body>
+
+</html>

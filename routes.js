@@ -7,6 +7,9 @@ const crypto = require('crypto');
 const spotifyService = require("./services/spotifyservice.js");
 const lyricsService = require("./services/lyricsservice.js");
 
+router.use(express.urlencoded({ extended: true }));
+router.use(express.json());
+
 db.connect()
     .then(function (response) {
         console.log(response);
@@ -43,7 +46,7 @@ router.post('/api/users', function (req, res) {
 
 //route for add playlist
 router.post('/api/playlists', function (req, res) {
-    let userId = res.locals.userId; // obtained from authenticationCheck
+    let userId = res.locals.userId; 
     let { name, description } = req.body;
 
     db.addPlaylist(userId, name, description)
@@ -56,9 +59,9 @@ router.post('/api/playlists', function (req, res) {
         });
 })
 
-//route for retrieving all playlists
+
 router.get('/api/playlists', function (req, res) {
-    let userId = res.locals.userId; // set by authenticationCheck
+    let userId = res.locals.userId; 
 
     db.getPlaylists(userId)
         .then(function (response) {
@@ -71,26 +74,26 @@ router.get('/api/playlists', function (req, res) {
 })
 
 //route for updating playlist by name
-router.put('/api/playlists/name/:value', function (req, res) {
-    const playlistName = req.params.value;
+router.put('/api/playlists/name/:playlistName', authenticationCheck, function (req, res) {
+    const playlistName = req.params.playlistName;
     const { name, description } = req.body;
-    const userId = mongoose.Types.ObjectId(res.locals.userId); // convert to ObjectId
+    const userId = new mongoose.Types.ObjectId(res.locals.userId); 
 
     db.updatePlaylist(
         { name: playlistName, creator: userId },
         { name, description }
     )
-    .then(function(response) {
+    .then(function (response) {
         if (response === "Unable to find playlist to update.") {
-            res.status(403).json({ message: "You are not authorized to update this playlist or it does not exist." });
+            res.status(403).json({ message: "Not authorized or playlist not found." });
         } else {
             res.status(200).json({ message: response });
         }
     })
-    .catch(function(error) {
+    .catch(function (error) {
         res.status(500).json({ message: error.message });
     });
-})
+});
 
 //route for deleting playlist by name
 router.delete('/api/playlists/name/:value', function (req, res) {
@@ -105,16 +108,19 @@ router.delete('/api/playlists/name/:value', function (req, res) {
 })
 
 //route for searching playlists
-router.post('/api/playlists/search', function (req, res) {
-    let data = req.body;
-    db.searchPlaylists(data.name)
+
+router.post('/api/playlists/search', authenticationCheck, function (req, res) {
+    let name = req.body.name;
+    let userId = res.locals.userId; 
+
+    db.searchPlaylists(userId, name) 
         .then(function (response) {
             res.status(200).json(response);
         })
         .catch(function (error) {
             res.status(500).json({ "message": error.message });
         });
-})
+});
 
 //login
 router.post('/api/user/login', function (req, res) {
@@ -152,18 +158,25 @@ router.get('/api/user/logout', function (req, res) {
         })
 })
 
-router.post("/api/playlists/name/:playlistName/songs", async (req, res) => {
+router.post("/api/playlists/name/:playlistName/songs", authenticationCheck, async (req, res) => {
     const playlistName = req.params.playlistName;
-    const { spotifyId } = req.body;
+    const { spotifyId } = req.body; 
 
     if (!spotifyId) {
         return res.status(400).json({ message: "spotifyId is required." });
     }
 
     try {
-        const songObj = await getTrack(spotifyId); // already mapped to schema
+        // 1. Fetch track details from Spotify using your service
+        const songObj = await spotifyService.getTrack(spotifyId); 
 
+        // 2. Add the song object to the database
+        // userId is available here thanks to authenticationCheck
         const updated = await db.addSongToPlaylistByName(playlistName, songObj);
+
+        if (!updated) {
+            return res.status(404).json({ message: "Playlist not found." });
+        }
 
         res.status(200).json({
             message: `Song added to playlist '${playlistName}'`,
@@ -171,25 +184,45 @@ router.post("/api/playlists/name/:playlistName/songs", async (req, res) => {
         });
 
     } catch (err) {
-        console.error(err);
+        console.error("Add Song Route Error:", err);
         res.status(500).json({ message: err.message });
     }
 });
 
-router.delete("/api/playlists/:playlistName/songs/:spotifyId", async (req, res) => {
-    const { playlistName, spotifyId } = req.params;
+router.delete('/api/playlists/name/:playlistName', authenticationCheck, function (req, res) {
+    const playlistName = req.params.playlistName;
+    const userId = res.locals.userId; // Obtained from token
 
-    try {
-        const updatedPlaylist = await db.removeSong(playlistName, spotifyId);
-
-        res.status(200).json({
-            message: `Song removed from playlist '${playlistName}'`,
-            playlist: updatedPlaylist
+    // We pass both the name and the creator ID to ensure security
+    db.deleteEvent({ name: playlistName, creator: userId })
+        .then(function (response) {
+            if (response === "Unable to find a playlist to delete.") {
+                res.status(403).json({ message: "You are not authorized to delete this playlist or it doesn't exist." });
+            } else {
+                res.status(200).json({ "message": response });
+            }
+        })
+        .catch(function (error) {
+            res.status(500).json({ "message": error.message });
         });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: err.message });
-    }
+});
+
+router.delete('/api/playlists/:playlistName/songs/:spotifyId', authenticationCheck, function (req, res) {
+    const playlistName = req.params.playlistName;
+    const spotifyId = req.params.spotifyId;
+
+    // This calls your improved removeSong(playlistName, spotifyId)
+    db.removeSong(playlistName, spotifyId)
+        .then(function (updatedPlaylist) {
+            res.status(200).json({ 
+                message: "Song removed successfully.",
+                playlist: updatedPlaylist 
+            });
+        })
+        .catch(function (error) {
+            console.error("Remove Song Error:", error.message);
+            res.status(500).json({ "message": error.message });
+        });
 });
 
 //route for liking songs
@@ -203,13 +236,13 @@ router.post('/api/users/:username/like', function (req, res) {
         });
 });
 
-//route for retrieving liked songs
 router.get('/api/users/:username/likes', function (req, res) {
     db.getLikedSongs(req.params.username)
         .then(function (response) {
             res.status(200).json(response);
         })
         .catch(function (error) {
+            console.error("Route Error:", error.message);
             res.status(500).json({ "message": error.message });
         });
 });
@@ -230,6 +263,7 @@ router.post('/api/playlists/:playlistName/collaborators', function (req, res) {
 router.get("/spotify/search", async (req, res) => {
     try {
         const query = req.query.q;
+        //limits the search results to 10
         const limit = req.query.limit ? parseInt(req.query.limit) : 10;
 
         if (!query) {
@@ -255,7 +289,6 @@ router.get("/spotify/search", async (req, res) => {
     }
 });
 
-// GET /api/spotify/track/:id
 router.get("/api/spotify/track/:id", async (req, res) => {
     try {
         const track = await getTrack(req.params.id);
@@ -265,6 +298,8 @@ router.get("/api/spotify/track/:id", async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
+
 
 function authenticationCheck(req, res, next) {
     let token = req.query.token;
@@ -286,6 +321,7 @@ function authenticationCheck(req, res, next) {
     }
 }
 
+//retrieving lyrics for songs
 router.get("/api/lyrics/:spotifyId", async (req, res) => {
     try {
         const trackId = req.params.spotifyId;
@@ -296,7 +332,6 @@ router.get("/api/lyrics/:spotifyId", async (req, res) => {
             return res.status(404).json({ message: "Track not found." });
         }
 
-        // Extract artist + title for lyrics.ovh
         const { name, artist } = track;
 
         const lyrics = await lyricsService.getLyrics(trackId, artist, name);
@@ -312,6 +347,15 @@ router.get("/api/lyrics/:spotifyId", async (req, res) => {
         console.error(err);
         res.status(500).json({ message: "Failed to get lyrics." });
     }
+});
+
+
+router.delete('/api/users/:username/likes/:spotifyId', authenticationCheck, function (req, res) {
+    const { username, spotifyId } = req.params;
+    
+    db.unlikeSong(username, spotifyId)
+        .then(response => res.status(200).json({ message: response }))
+        .catch(error => res.status(500).json({ message: error.message }));
 });
 
 module.exports = router;
