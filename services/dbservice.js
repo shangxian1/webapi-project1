@@ -253,19 +253,30 @@ let db = {
 
 async unlikeSong(username, idToDelete) {
     try {
+        let pullCriteria = {};
+
+        const isValidObjectId = mongoose.Types.ObjectId.isValid(idToDelete);
+
+        if (isValidObjectId) {
+            pullCriteria = {
+                $or: [
+                    { spotifyTrackId: idToDelete },
+                    { songId: idToDelete },
+                    { _id: idToDelete }
+                ]
+            };
+        } else {
+            pullCriteria = {
+                $or: [
+                    { spotifyTrackId: idToDelete },
+                    { songId: idToDelete }
+                ]
+            };
+        }
+
         const result = await user.findOneAndUpdate(
             { username: username },
-            { 
-                $pull: { 
-                    likedSongs: { 
-                        $or: [
-                            { spotifyTrackId: idToDelete },
-                            { songId: idToDelete },
-                            { _id: idToDelete } 
-                        ]
-                    } 
-                } 
-            },
+            { $pull: { likedSongs: pullCriteria } },
             { new: true }
         );
 
