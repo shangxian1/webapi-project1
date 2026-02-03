@@ -59,7 +59,7 @@ router.post('/api/playlists', function (req, res) {
         });
 })
 
-
+// retrieves playlists of logged in user
 router.get('/api/playlists', function (req, res) {
     let userId = res.locals.userId; 
 
@@ -108,7 +108,6 @@ router.delete('/api/playlists/name/:value', function (req, res) {
 })
 
 //route for searching playlists
-
 router.post('/api/playlists/search', authenticationCheck, function (req, res) {
     let name = req.body.name;
     let userId = res.locals.userId; 
@@ -147,6 +146,7 @@ router.post('/api/user/login', function (req, res) {
         })
 })
 
+//logout
 router.get('/api/user/logout', function (req, res) {
     let id = res.locals.userId;
     db.removeToken(id)
@@ -158,6 +158,7 @@ router.get('/api/user/logout', function (req, res) {
         })
 })
 
+//adding songs to playlist
 router.post("/api/playlists/name/:playlistName/songs", authenticationCheck, async (req, res) => {
     const playlistName = req.params.playlistName;
     const { spotifyId } = req.body; 
@@ -167,10 +168,10 @@ router.post("/api/playlists/name/:playlistName/songs", authenticationCheck, asyn
     }
 
     try {
-        // 1. Fetch track details from Spotify using your service
+        // Fetch track details from Spotify using service
         const songObj = await spotifyService.getTrack(spotifyId); 
 
-        // 2. Add the song object to the database
+        // Add the song object to the database
         // userId is available here thanks to authenticationCheck
         const updated = await db.addSongToPlaylistByName(playlistName, songObj);
 
@@ -193,7 +194,7 @@ router.delete('/api/playlists/name/:playlistName', authenticationCheck, function
     const playlistName = req.params.playlistName;
     const userId = res.locals.userId; // Obtained from token
 
-    // We pass both the name and the creator ID to ensure security
+    // pass both the name and the creator ID to ensure security
     db.deleteEvent({ name: playlistName, creator: userId })
         .then(function (response) {
             if (response === "Unable to find a playlist to delete.") {
@@ -211,7 +212,6 @@ router.delete('/api/playlists/:playlistName/songs/:spotifyId', authenticationChe
     const playlistName = req.params.playlistName;
     const spotifyId = req.params.spotifyId;
 
-    // This calls your improved removeSong(playlistName, spotifyId)
     db.removeSong(playlistName, spotifyId)
         .then(function (updatedPlaylist) {
             res.status(200).json({ 
